@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
+  <title>Guess the number</title>
+</head>
+<body>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Press Start 2P", system-ui;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #40407a;
+}
+
+.container {
+  height: 365px;
+  width: 510px;
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  background-color: #706fd3;
+  /* border-radius: 20px; */
+  gap: 2rem;
+  border: 3px solid black;
+  box-shadow: 5px 5px black;
+}
+
+h1 {
+  font-size: 25px;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+}
+
+.userInput {
+  height: 36px;
+  outline: none;
+  padding: 0 20px;
+  font-size: 15px;border: 3px solid black;
+  box-shadow: 5px 5px black;
+}
+
+button {
+  padding: 10px 20px;
+  border: 3px solid black;
+  box-shadow: 5px 5px black;
+  transition: 0.25s;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+button:active {
+  box-shadow: 0px 0px black;
+  transform: translate(5px, 5px);
+}
+
+.btnBox {
+  display: flex;
+  justify-content: space-around;
+}
+
+#btnRetry {
+  visibility: hidden;
+}
+
+/* oculta as setinhas da entrada de números */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 20px;
+}
+
+canvas#confetti {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;
+  pointer-events: none;
+}
+  </style>
+  <!-- <canvas id="confetti"></canvas> -->
+  <main class="container">
+    <h1>Guess the number 0-10</h1>
+    <div class="input-box" id="input-box">
+      <input type="number" name="" class="userInput" id="userInput">
+      <div class="btnBox">
+        <button class="btnGuess" id="btnGuess" onclick="guess()">Guess</button>
+        <button class="btnRetry" id="btnRetry" onclick="retry()">Retry</button>
+      </div>
+    </div>
+    <p class="result" id="result"></p>
+    <p class="numberCorrect" id="numberCorrect"></p>
+  </main>
+</body>
+  <script>
+    const results = document.getElementById('result')
+const numberCorrect = document.getElementById('numberCorrect')
+const userInput = document.getElementById('userInput')
+const btnRetry = document.getElementById('btnRetry')
+
+// Configurando efeito de comemoração
+const congratEffect = new JSConfetti({
+  emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸'],
+})
+
+let numeroAleatorio; // Declare a variável globalmente
+
+generateNumber()
+
+function generateNumber() {
+  numeroAleatorio = Math.floor(Math.random() * 11); // O intervalo é de 0 a 100
+  console.log(numeroAleatorio);
+  btnRetry.style.visibility = "hidden"
+  results.textContent = ""
+  numberCorrect.textContent = ""
+}
+
+function guess() {
+  const userGuess = parseInt(userInput.value); // Converter entrada do usuário para número
+  
+  if (userGuess === numeroAleatorio) {
+    results.textContent = "CONGRATULATIONS, YOU WIN!!!"
+    btnRetry.style.visibility = "visible"
+    congratEffect.addConfetti()
+  } else {
+    results.textContent = "Incorrect number '-'"
+    userGuess.textContent = ""
+  }
+}
+
+function retry(params) {
+  generateNumber()
+}
+  </script>
+<!-- Comemoration uhuuul -->
+<script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+<script src="assets/scripts/script.js"></script>
+</html>
